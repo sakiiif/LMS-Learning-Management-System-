@@ -24,13 +24,15 @@ export default {
         return ctx.badRequest(`role must be one of: ${ASSIGNABLE_ROLES.join(', ')}`);
     }
 
+    const normalizedEmail = email.toLowerCase(); // <-- add this
+
     // Check for existing username or email (case-insensitive on email,
     // matching Strapi's own default register behavior)
     const existingUser = await strapi.query('plugin::users-permissions.user').findOne({
         where: {
         $or: [
             { username },
-            { email: { $eqi: email } },
+            { email: normalizedEmail }, // normaliozed
         ],
         },
     });
@@ -52,7 +54,7 @@ export default {
 
     const newUser = await strapi.plugin('users-permissions').service('user').add({
         username,
-        email,
+        email: normalizedEmail, // use normalized
         password,
         fullName,
         role: targetRole.id,

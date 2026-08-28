@@ -74,7 +74,7 @@
       "type": "relation",
       "relation": "manyToMany",
       "target": "api::course.course",
-      "mappedBy": "users_permissions_users"
+      "mappedBy": "instructors"
     }
   }
 }
