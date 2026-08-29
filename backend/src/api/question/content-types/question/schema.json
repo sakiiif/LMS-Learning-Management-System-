@@ -25,8 +25,9 @@
     },
     "quiz": {
       "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::quiz.quiz"
+      "relation": "manyToOne",
+      "target": "api::quiz.quiz",
+      "inversedBy": "questions"
     }
   }
 }
