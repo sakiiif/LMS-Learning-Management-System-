@@ -28,6 +28,11 @@ const config = ({ env }: Core.Config.Shared.ConfigParams): Core.Config.Plugin =>
     config: {
       jwtManagement: 'refresh',
       sessions: {
+        accessTokenLifespan: 60 * 60 * 24, // 1 day
+        maxRefreshTokenLifespan: 60 * 60 * 24 * 30, // 30 days
+        idleRefreshTokenLifespan: 60 * 60 * 24 * 14, // 14 days
+        maxSessionLifespan: 60 * 60 * 24 * 7, // 7 days
+        idleSessionLifespan: 60 * 60 * 24, // 1 day
         httpOnly: true,
       },
     },
