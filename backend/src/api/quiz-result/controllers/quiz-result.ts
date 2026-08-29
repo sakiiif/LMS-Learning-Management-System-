@@ -102,7 +102,7 @@ export default factories.createCoreController('api::quiz-result.quiz-result', ({
   // Only Student may create — always forced to themselves.
   // NOTE: score is currently taken as-is from the client — this is
   // temporary, replaced with real server-side auto-grading next.
-  async create(ctx) {
+  /*async create(ctx) {
     const user = ctx.state.user;
     const fullUser = await strapi.query('plugin::users-permissions.user').findOne({
       where: { id: user.id },
@@ -130,6 +130,74 @@ export default factories.createCoreController('api::quiz-result.quiz-result', ({
     });
 
     ctx.body = { data: entry };
+  },*/
+
+  async create(ctx) {
+    const user = ctx.state.user;
+    const fullUser = await strapi.query('plugin::users-permissions.user').findOne({
+      where: { id: user.id },
+      populate: ['role'],
+    });
+
+    if (fullUser?.role?.name !== 'Student') {
+      return ctx.forbidden('Only Student may submit quiz results');
+    }
+
+    const body = ctx.request.body?.data || {};
+
+    if (!body.quiz) {
+      return ctx.badRequest('quiz is required');
+    }
+    if (!body.answers || typeof body.answers !== 'object') {
+      return ctx.badRequest('answers is required');
+    }
+
+    const quizWhereClause =
+      typeof body.quiz === 'string' && isNaN(Number(body.quiz))
+        ? { documentId: body.quiz }
+        : { id: body.quiz };
+
+    const quiz = await strapi.query('api::quiz.quiz').findOne({
+      where: quizWhereClause,
+      populate: ['questions'],
+    });
+
+    if (!quiz) {
+      return ctx.notFound('Quiz not found');
+    }
+
+    const questions = quiz.questions || [];
+    if (questions.length === 0) {
+      return ctx.badRequest('This quiz has no questions');
+    }
+
+    // Simple scoring: 1 point per correct MCQ answer, 0 for wrong/unanswered.
+    // Client-submitted "score" is never trusted or even read.
+    let score = 0;
+    for (const question of questions) {
+      const submitted = body.answers[question.documentId] ?? body.answers[question.id];
+      if (submitted !== undefined && submitted === question.correctAnswer) {
+        score += 1;
+      }
+    }
+
+    const entry = await strapi.documents('api::quiz-result.quiz-result').create({
+      data: {
+        student: user.id,
+        quiz: quiz.id,
+        score,
+        answers: body.answers,
+        submittedAt: new Date().toISOString(),
+      },
+      populate: ['student', 'quiz'],
+    });
+
+    ctx.body = {
+      data: {
+        ...entry,
+        totalQuestions: questions.length,
+      },
+    };
   },
 
   // No update — results are immutable once submitted, per spec.
