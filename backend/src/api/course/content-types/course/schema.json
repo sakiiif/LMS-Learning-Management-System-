@@ -27,7 +27,14 @@
     "lessons": {
       "type": "relation",
       "relation": "oneToMany",
-      "target": "api::lesson.lesson"
+      "target": "api::lesson.lesson",
+      "mappedBy": "course"
+    },
+    "quizzes": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::quiz.quiz",
+      "mappedBy": "course"
     }
   }
 }

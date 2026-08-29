@@ -504,6 +504,7 @@ export interface ApiCourseCourse extends Struct.CollectionTypeSchema {
     > &
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
+    quizzes: Schema.Attribute.Relation<'oneToMany', 'api::quiz.quiz'>;
     title: Schema.Attribute.String & Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -591,7 +592,7 @@ export interface ApiLessonLesson extends Struct.CollectionTypeSchema {
   };
   attributes: {
     content: Schema.Attribute.Blocks;
-    course: Schema.Attribute.Relation<'oneToOne', 'api::course.course'>;
+    course: Schema.Attribute.Relation<'manyToOne', 'api::course.course'>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -688,7 +689,7 @@ export interface ApiQuizQuiz extends Struct.CollectionTypeSchema {
     draftAndPublish: false;
   };
   attributes: {
-    course: Schema.Attribute.Relation<'oneToOne', 'api::course.course'>;
+    course: Schema.Attribute.Relation<'manyToOne', 'api::course.course'>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
