@@ -95,8 +95,14 @@ In the Strapi admin panel, under **Settings → Users & Permissions → Roles**,
     - Quiz-taking flow for Students (MCQ submission + auto-graded result display)
   ### Instructor flow
     - Instructor dashboard (course/lesson/quiz management)
+    - View list of own courses (course ownership scoped by backend policy)
+    - Add / edit / delete lessons under own courses (text or video URL content)
+    - Create MCQ quizzes on own courses (question + options + correct answer)
   ### Admin flow
     - Admin dashboard (user management, platform stats)
+    - Change/promote a user's role (Student → Instructor/Content Manager/Admin, etc.)
+    - Delete a user (with self-delete protection surfaced in UI)
+    - Platform stats view — total users per role, total courses, total enrollments
   ### Content Manager flow
   
   ### Frontend — In progress
