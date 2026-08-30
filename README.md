@@ -2,8 +2,8 @@
 
 Full-stack LMS built with **Strapi v5 (TypeScript)** on the backend and **Next.js (App Router, TypeScript, Tailwind CSS)** on the frontend, with four custom roles (Admin, Content Manager, Instructor, Student) and backend-enforced permissions.
 
-- **Live Frontend:** `[[Vercel URL](https://learning-management-system-nine-omega.vercel.app)]`
-- **Live Backend:** `[[Railway URL](https://lms-learning-management-system-production-6cff.up.railway.app)]`
+- **Live Frontend:** `https://learning-management-system-nine-omega.vercel.app`
+- **Live Backend:** `https://lms-learning-management-system-production-6cff.up.railway.app`
 
 ---
 
@@ -74,7 +74,7 @@ In the Strapi admin panel, under **Settings → Users & Permissions → Roles**,
 
 ## Features Completed
 
-### ✅ Backend (fully built & deployed)
+### ✅ Backend
 
 - Nine content types with two-way relations (Courses, Lessons, Quizzes, Questions, Enrollments, Lesson Progress, Quiz Results, Blog Posts, Users)
 - Four-role permission matrix enforced server-side via custom policies and controller overrides — not just hidden UI
@@ -84,22 +84,24 @@ In the Strapi admin panel, under **Settings → Users & Permissions → Roles**,
 - Real server-side MCQ auto-grading — client-submitted scores are ignored, and `correctAnswer` is stripped from all student-facing responses
 - httpOnly-cookie-compatible auth (JWT with refresh) deployed on Railway with PostgreSQL
 
-### ✅ Frontend — Student flow (complete)
-
-- Sign up / log in / log out (httpOnly cookie sessions)
-- Browse Courses → Enroll
-- My Courses (enrolled courses only)
-- Course Detail — lesson list with live progress bar
-- Lesson viewer (text and video content) with Mark Complete
-- Progress percentage — accurate per student, per course, persists across refreshes
-
-### 🚧 Frontend — In progress
-
-- [ ] Instructor dashboard (course/lesson/quiz management)
-- [ ] Content Manager dashboard (blog post draft/publish management)
-- [ ] Admin dashboard (user management, platform stats)
-- [ ] Quiz-taking flow for Students (MCQ submission + auto-graded result display)
-- [ ] Public blog pages
+### ✅ Frontend 
+  ### Student flow
+    - Sign up / log in / log out (httpOnly cookie sessions)
+    - Browse Courses → Enroll
+    - My Courses (enrolled courses only)
+    - Course Detail — lesson list with live progress bar
+    - Lesson viewer (text and video content) with Mark Complete
+    - Progress percentage — accurate per student, per course, persists across refreshes
+    - Quiz-taking flow for Students (MCQ submission + auto-graded result display)
+  ### Instructor flow
+    - Instructor dashboard (course/lesson/quiz management)
+  ### Admin flow
+    - Admin dashboard (user management, platform stats)
+  ### Content Manager flow
+  
+  ### Frontend — In progress
+    - [ ] Content Manager dashboard (blog post draft/publish management)
+    - [ ] Public blog pages
 
 > Update the checklist above as each flow ships, and remove this note once the project is complete.
 
