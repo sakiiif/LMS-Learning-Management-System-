@@ -108,9 +108,6 @@ In the Strapi admin panel, under **Settings → Users & Permissions → Roles**,
   ### Frontend — In progress
     - [ ] Content Manager dashboard (blog post draft/publish management)
     - [ ] Public blog pages
-
-> Update the checklist above as each flow ships, and remove this note once the project is complete.
-
 ---
 
 ## Tech Stack
