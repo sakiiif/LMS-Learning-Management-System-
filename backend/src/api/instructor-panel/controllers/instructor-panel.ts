@@ -7,8 +7,10 @@ export default {
       populate: ['instructors'],
     });
 
-    const myCourses = allCourses.filter((c: any) =>
-      c.instructors?.some((i: any) => i.id === user.id)
+    const myCourses = allCourses.filter(
+      (c: any) =>
+        c.publishedAt !== null && // only published rows, skip drafts
+        c.instructors?.some((i: any) => i.id === user.id)
     );
 
     ctx.body = {
