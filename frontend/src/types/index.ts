@@ -34,3 +34,28 @@ export type LessonProgress = {
 export type LessonWithProgress = Lesson & {
   progress: LessonProgress | null;
 };
+
+export type Question = {
+  id: number;
+  documentId: string;
+  text: string;
+  options: string[];
+  // correctAnswer intentionally omitted — backend strips it for Students
+};
+
+export type Quiz = {
+  id: number;
+  documentId: string;
+  title: string;
+  questions?: Question[];
+};
+
+export type QuizResult = {
+  id: number;
+  documentId: string;
+  score: number;
+  submittedAt: string;
+  answers: Record<string, string>;
+  quiz: Quiz;
+  totalQuestions?: number;
+};
