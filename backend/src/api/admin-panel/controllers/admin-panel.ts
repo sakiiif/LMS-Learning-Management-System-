@@ -114,11 +114,13 @@ export default {
 
   // GET /admin-panel/stats — basic platform stats for the admin dashboard
   async getStats(ctx: any) {
-    const [totalUsers, totalCourses, totalEnrollments] = await Promise.all([
+    const [totalUsers, allCourses, totalEnrollments] = await Promise.all([
       strapi.query('plugin::users-permissions.user').count(),
-      strapi.query('api::course.course').count(),
+      strapi.query('api::course.course').findMany({ where: { publishedAt: { $notNull: true } } }),
       strapi.query('api::enrollment.enrollment').count(),
     ]);
+
+    const totalCourses = allCourses.length;
 
     const roles = await strapi.query('plugin::users-permissions.role').findMany();
     const usersPerRole: Record<string, number> = {};
