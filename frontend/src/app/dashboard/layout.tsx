@@ -39,6 +39,13 @@ export default async function DashboardLayout({
               </Link>
             </div>
           )}
+          {role === 'Admin' && (
+            <div className="flex gap-4 text-sm">
+              <Link href="/dashboard/admin" className="text-slate-600 hover:text-slate-900">
+                Admin Panel
+              </Link>
+            </div>
+          )}
         </div>
         <div className="flex items-center gap-4 text-sm">
           <span className="text-slate-500">
