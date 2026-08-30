@@ -9,6 +9,8 @@ const config = ({ env }: Core.Config.Shared.ConfigParams): Core.Config.Server =>
   webhooks: {
     populateRelations: env.bool('WEBHOOKS_POPULATE_RELATIONS', false),
   },
+  proxy: true, // trust Railway's reverse proxy (X-Forwarded-* headers),
+    // needed so Strapi correctly recognizes HTTPS and can set secure cookies
 });
 
 export default config;
