@@ -34,6 +34,9 @@ const config = ({ env }: Core.Config.Shared.ConfigParams): Core.Config.Plugin =>
         maxSessionLifespan: 60 * 60 * 24 * 7, // 7 days
         idleSessionLifespan: 60 * 60 * 24, // 1 day
         httpOnly: true,
+        cookie: {
+          secure: env('NODE_ENV') === 'production',
+        },
       },
     },
   },
