@@ -1,3 +1,4 @@
+/*
 import type { Core } from '@strapi/strapi';
 
 const config = ({ env }: Core.Config.Shared.ConfigParams): Core.Config.Server => ({
@@ -11,6 +12,25 @@ const config = ({ env }: Core.Config.Shared.ConfigParams): Core.Config.Server =>
   },
   proxy: true, // trust Railway's reverse proxy (X-Forwarded-* headers),
     // needed so Strapi correctly recognizes HTTPS and can set secure cookies
+});
+
+export default config;
+*/
+
+import type { Core } from '@strapi/strapi';
+
+const config = ({ env }: Core.Config.Shared.ConfigParams): Core.Config.Server => ({
+  host: env('HOST', '0.0.0.0'),
+  port: env.int('PORT', 1337),
+  app: {
+    keys: env.array('APP_KEYS')!,
+  },
+  webhooks: {
+    populateRelations: env.bool('WEBHOOKS_POPULATE_RELATIONS', false),
+  },
+  proxy: {
+    koa: true, // Strapi v5-specific syntax to trust Railway's reverse proxy
+  },
 });
 
 export default config;
