@@ -9,17 +9,10 @@ export default async function InstructorDashboard() {
   if (!session) redirect('/login');
   if (session.user.role?.name !== 'Instructor') redirect('/dashboard');
 
-  const coursesRes = await apiFetch('/api/courses?populate=instructors', {
+  const coursesRes = await apiFetch('/api/instructor-panel/my-courses', {
     token: session.token,
   });
-  const allCourses: Course[] = coursesRes.data;
-  // debug
-  console.log("🔍 session.user.id:", session.user.id);
-  console.log("🔍 allCourses:", JSON.stringify(allCourses.map(c => ({ id: c.id, title: c.title, instructors: c.instructors }))));
-  
-  const myCourses = allCourses.filter((c) =>
-    c.instructors?.some((i: any) => i.id === session.user.id)
-  );
+  const myCourses: Course[] = coursesRes.data;
 
   return (
     <div className="p-8 max-w-4xl mx-auto">
