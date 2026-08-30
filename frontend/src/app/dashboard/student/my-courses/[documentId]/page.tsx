@@ -2,7 +2,7 @@ import { getSession } from '@/lib/session';
 import { apiFetch } from '@/lib/api';
 import { redirect, notFound } from 'next/navigation';
 import Link from 'next/link';
-import type { Course, LessonProgress, LessonWithProgress } from '@/types';
+import type { Course, LessonProgress, LessonWithProgress, Quiz } from '@/types';
 
 export default async function CourseDetailPage({
   params,
@@ -13,7 +13,6 @@ export default async function CourseDetailPage({
   const session = await getSession();
   if (!session) redirect('/login');
 
-  // Fetch the course with its lessons populated
   const courseRes = await apiFetch(
     `/api/courses/${documentId}?populate=lessons`,
     { token: session.token }
@@ -22,9 +21,15 @@ export default async function CourseDetailPage({
 
   if (!course) notFound();
 
-  // Fetch this student's progress records to know which lessons are done
-  const progressRes = await apiFetch('/api/lesson-progresses', { token: session.token });
+  const [progressRes, quizzesRes] = await Promise.all([
+    apiFetch('/api/lesson-progresses', { token: session.token }),
+    apiFetch(`/api/quizzes?filters[course][documentId][$eq]=${documentId}`, {
+      token: session.token,
+    }),
+  ]);
+
   const progressRecords: LessonProgress[] = progressRes.data;
+  const quizzes: Quiz[] = quizzesRes.data;
 
   const lessons = (course.lessons || []).sort((a, b) => a.order - b.order);
 
@@ -69,7 +74,7 @@ export default async function CourseDetailPage({
       <h2 className="text-sm font-medium text-slate-500 uppercase tracking-wide mb-3">
         Lessons
       </h2>
-      <div className="space-y-2">
+      <div className="space-y-2 mb-8">
         {lessonsWithProgress.map((lesson, index) => (
           <Link
             key={lesson.id}
@@ -94,6 +99,26 @@ export default async function CourseDetailPage({
           <p className="text-slate-500 text-sm">No lessons available in this course yet.</p>
         )}
       </div>
+
+      {quizzes.length > 0 && (
+        <>
+          <h2 className="text-sm font-medium text-slate-500 uppercase tracking-wide mb-3">
+            Quizzes
+          </h2>
+          <div className="space-y-2">
+            {quizzes.map((quiz) => (
+              <Link
+                key={quiz.id}
+                href={`/dashboard/student/my-courses/${documentId}/quizzes/${quiz.documentId}`}
+                className="flex items-center justify-between bg-white border border-slate-200 rounded-lg px-4 py-3 hover:border-slate-400 transition-colors"
+              >
+                <span className="text-slate-900">{quiz.title}</span>
+                <span className="text-xs text-slate-400">Take quiz →</span>
+              </Link>
+            ))}
+          </div>
+        </>
+      )}
     </div>
   );
 }
