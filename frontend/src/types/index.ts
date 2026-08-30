@@ -59,3 +59,7 @@ export type QuizResult = {
   quiz: Quiz;
   totalQuestions?: number;
 };
+
+export type CourseWithRelations = Course & {
+  instructors?: { id: number; username: string; fullName?: string }[];
+};
