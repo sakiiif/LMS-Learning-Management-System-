@@ -32,5 +32,11 @@ export default {
         handler: 'admin-panel.deleteUser',
         config: { policies: ['global::is-admin'] },
     },
+    {
+        method: 'PUT',
+        path: '/admin-panel/courses/:id/instructors',
+        handler: 'admin-panel.assignInstructors',
+        config: {},
+    },
   ],
 };
