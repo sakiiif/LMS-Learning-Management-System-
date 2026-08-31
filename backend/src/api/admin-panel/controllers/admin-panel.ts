@@ -252,5 +252,27 @@ export default {
     });
 
     ctx.body = { data: { success: true } };
-  },   
+  },
+  
+  // fetch all course data
+  async allCoursesWithInstructors(ctx: any) {
+    const allCourses = await strapi.query('api::course.course').findMany({
+      where: { publishedAt: { $notNull: true } },
+      populate: ['instructors'],
+    });
+
+    ctx.body = {
+      data: allCourses.map((c: any) => ({
+        id: c.id,
+        documentId: c.documentId,
+        title: c.title,
+        description: c.description,
+        instructors: (c.instructors || []).map((i: any) => ({
+          id: i.id,
+          username: i.username,
+          fullName: i.fullName,
+        })),
+      })),
+    };
+  },
 };

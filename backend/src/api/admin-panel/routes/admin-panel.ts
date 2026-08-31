@@ -44,5 +44,11 @@ export default {
       handler: 'admin-panel.removeInstructor',
       config: {},
     },
+    {
+      method: 'GET',
+      path: '/admin-panel/courses-with-instructors',
+      handler: 'admin-panel.allCoursesWithInstructors',
+      config: {},
+    },
   ],
 };
