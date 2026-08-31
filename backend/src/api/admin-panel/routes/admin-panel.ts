@@ -6,7 +6,7 @@ export default {
       method: 'GET',
       path: '/admin-panel/users',
       handler: 'admin-panel.listUsers',
-      config: { policies: ['global::is-admin'] },
+      config: { policies: ['global::is-admin-or-cm'] },
     },
     {
       method: 'POST',
@@ -36,19 +36,19 @@ export default {
       method: 'POST',
       path: '/admin-panel/courses/:id/instructors',
       handler: 'admin-panel.addInstructor',
-      config: {},
+      config: { policies: ['global::is-admin-or-cm'] },
     },
     {
       method: 'DELETE',
       path: '/admin-panel/courses/:id/instructors/:instructorId',
       handler: 'admin-panel.removeInstructor',
-      config: {},
+      config: { policies: ['global::is-admin-or-cm'] },
     },
     {
       method: 'GET',
       path: '/admin-panel/courses-with-instructors',
       handler: 'admin-panel.allCoursesWithInstructors',
-      config: {},
+      config: { policies: ['global::is-admin-or-cm'] },
     },
   ],
 };
