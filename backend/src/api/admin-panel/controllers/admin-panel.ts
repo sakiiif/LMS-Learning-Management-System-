@@ -164,4 +164,38 @@ export default {
 
     ctx.body = { data: { id, deleted: true } };
     },
+
+  // assign instructors by the admin or content manager only
+  async assignInstructors(ctx: any) {
+    const user = ctx.state.user;
+    const fullUser = await strapi.query('plugin::users-permissions.user').findOne({
+      where: { id: user.id },
+      populate: ['role'],
+    });
+    const roleName = fullUser?.role?.name;
+
+    if (roleName !== 'Admin' && roleName !== 'Content Manager') {
+      return ctx.forbidden('Only Admin or Content Manager may assign instructors');
+    }
+
+    const { id } = ctx.params;
+    const { instructorIds } = ctx.request.body;
+
+    if (!Array.isArray(instructorIds)) {
+      return ctx.badRequest('instructorIds must be an array');
+    }
+
+    const idWhereClause =
+      typeof id === 'string' && isNaN(Number(id)) ? { documentId: id } : { id };
+
+    const course = await strapi.query('api::course.course').findOne({ where: idWhereClause });
+    if (!course) return ctx.notFound('Course not found');
+
+    await strapi.documents('api::course.course').update({
+      documentId: course.documentId,
+      data: { instructors: instructorIds },
+    });
+
+    ctx.body = { data: { success: true } };
+  },    
 };
