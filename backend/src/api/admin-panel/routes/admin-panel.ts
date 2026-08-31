@@ -33,10 +33,16 @@ export default {
         config: { policies: ['global::is-admin'] },
     },
     {
-        method: 'PUT',
-        path: '/admin-panel/courses/:id/instructors',
-        handler: 'admin-panel.assignInstructors',
-        config: {},
+      method: 'POST',
+      path: '/admin-panel/courses/:id/instructors',
+      handler: 'admin-panel.addInstructor',
+      config: {},
+    },
+    {
+      method: 'DELETE',
+      path: '/admin-panel/courses/:id/instructors/:instructorId',
+      handler: 'admin-panel.removeInstructor',
+      config: {},
     },
   ],
 };

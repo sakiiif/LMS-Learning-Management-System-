@@ -166,7 +166,7 @@ export default {
     },
 
   // assign instructors by the admin or content manager only
-  async assignInstructors(ctx: any) {
+  async addInstructor(ctx: any) {
     const user = ctx.state.user;
     const fullUser = await strapi.query('plugin::users-permissions.user').findOne({
       where: { id: user.id },
@@ -179,23 +179,78 @@ export default {
     }
 
     const { id } = ctx.params;
-    const { instructorIds } = ctx.request.body;
+    const { instructorId } = ctx.request.body;
 
-    if (!Array.isArray(instructorIds)) {
-      return ctx.badRequest('instructorIds must be an array');
+    if (!instructorId) {
+      return ctx.badRequest('instructorId is required');
     }
 
     const idWhereClause =
       typeof id === 'string' && isNaN(Number(id)) ? { documentId: id } : { id };
 
-    const course = await strapi.query('api::course.course').findOne({ where: idWhereClause });
+    const course = await strapi.query('api::course.course').findOne({
+      where: idWhereClause,
+      populate: ['instructors'],
+    });
     if (!course) return ctx.notFound('Course not found');
+
+    const alreadyAssigned = course.instructors?.some((i: any) => i.id === instructorId);
+    if (alreadyAssigned) {
+      return ctx.badRequest('This instructor is already assigned to this course');
+    }
+
+    const targetUser = await strapi.query('plugin::users-permissions.user').findOne({
+      where: { id: instructorId },
+      populate: ['role'],
+    });
+    if (!targetUser || targetUser.role?.name !== 'Instructor') {
+      return ctx.badRequest('Target user is not an Instructor');
+    }
+
+    const currentIds = (course.instructors || []).map((i: any) => i.id);
+    const updatedIds = [...currentIds, instructorId];
 
     await strapi.documents('api::course.course').update({
       documentId: course.documentId,
-      data: { instructors: instructorIds },
+      data: { instructors: updatedIds },
     });
 
     ctx.body = { data: { success: true } };
-  },    
+  },
+
+  // remove instructors by the admin or content manager only
+  async removeInstructor(ctx: any) {
+    const user = ctx.state.user;
+    const fullUser = await strapi.query('plugin::users-permissions.user').findOne({
+      where: { id: user.id },
+      populate: ['role'],
+    });
+    const roleName = fullUser?.role?.name;
+
+    if (roleName !== 'Admin' && roleName !== 'Content Manager') {
+      return ctx.forbidden('Only Admin or Content Manager may remove instructors');
+    }
+
+    const { id, instructorId } = ctx.params;
+
+    const idWhereClause =
+      typeof id === 'string' && isNaN(Number(id)) ? { documentId: id } : { id };
+
+    const course = await strapi.query('api::course.course').findOne({
+      where: idWhereClause,
+      populate: ['instructors'],
+    });
+    if (!course) return ctx.notFound('Course not found');
+
+    const updatedIds = (course.instructors || [])
+      .map((i: any) => i.id)
+      .filter((existingId: number) => String(existingId) !== String(instructorId));
+
+    await strapi.documents('api::course.course').update({
+      documentId: course.documentId,
+      data: { instructors: updatedIds },
+    });
+
+    ctx.body = { data: { success: true } };
+  },   
 };
