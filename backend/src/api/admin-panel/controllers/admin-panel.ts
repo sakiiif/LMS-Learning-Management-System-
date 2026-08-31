@@ -213,6 +213,7 @@ export default {
     await strapi.documents('api::course.course').update({
       documentId: course.documentId,
       data: { instructors: updatedIds },
+      status: 'published', //  direct publishing on update
     });
 
     ctx.body = { data: { success: true } };
@@ -249,6 +250,7 @@ export default {
     await strapi.documents('api::course.course').update({
       documentId: course.documentId,
       data: { instructors: updatedIds },
+      status: 'published', // direct publishing on update
     });
 
     ctx.body = { data: { success: true } };
