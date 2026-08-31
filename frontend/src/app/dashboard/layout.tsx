@@ -46,6 +46,13 @@ export default async function DashboardLayout({
               </Link>
             </div>
           )}
+          {role === 'Content Manager' && (
+            <div className="flex gap-4 text-sm">
+              <Link href="/dashboard/content-manager" className="text-slate-600 hover:text-slate-900">
+                Dashboard
+              </Link>
+            </div>
+          )}
         </div>
         <div className="flex items-center gap-4 text-sm">
           <span className="text-slate-500">
