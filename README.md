@@ -102,11 +102,14 @@ In the Strapi admin panel, under **Settings → Users & Permissions → Roles**,
     - Admin dashboard (user management, platform stats)
     - Change/promote a user's role (Student → Instructor/Content Manager/Admin, etc.)
     - Delete a user (with self-delete protection surfaced in UI)
+    - Create courses, assign and modify instructors on courses
     - Platform stats view — total users per role, total courses, total enrollments
   ### Content Manager flow
+    - Content Manager dashboard
+    - Create courses, assign and modify instructors on courses
   
   ### Frontend — In progress
-    - [ ] Content Manager dashboard (blog post draft/publish management)
+    - [ ] blog post draft/publish management
     - [ ] Public blog pages
 ---
 
