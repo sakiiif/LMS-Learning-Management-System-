@@ -80,8 +80,9 @@ In the Strapi admin panel, under **Settings → Users & Permissions → Roles**,
 - Four-role permission matrix enforced server-side via custom policies and controller overrides — not just hidden UI
 - Student-only public registration; all other roles assigned by Admin post-signup
 - Custom Admin Panel API (`/api/admin-panel`) — user management (create, list, update role, delete with self-delete protection) and platform stats
-- Ownership policies so Instructors can only manage their own courses/lessons/quizzes, and only view progress for their own students
+- Ownership policies so Instructors can only manage their own courses/lessons/quizzes, and only view progress for their own students. Student only get their enrolled courses contents (lessons/quizzes/progress)
 - Real server-side MCQ auto-grading — client-submitted scores are ignored, and `correctAnswer` is stripped from all student-facing responses
+- Posting and modifying Blogs by the Admins and Content Managers. Published or Draft Mode. Only Published visible to all. 
 - httpOnly-cookie-compatible auth (JWT with refresh) deployed on Railway with PostgreSQL
 
 ### ✅ Frontend 
@@ -103,14 +104,12 @@ In the Strapi admin panel, under **Settings → Users & Permissions → Roles**,
     - Change/promote a user's role (Student → Instructor/Content Manager/Admin, etc.)
     - Delete a user (with self-delete protection surfaced in UI)
     - Create courses, assign and modify instructors on courses
+    - Manage Blogs
     - Platform stats view — total users per role, total courses, total enrollments
   ### Content Manager flow
     - Content Manager dashboard
     - Create courses, assign and modify instructors on courses
-  
-  ### Frontend — In progress
-    - [ ] blog post draft/publish management
-    - [ ] Public blog pages
+    - Manage Blogs
 ---
 
 ## Tech Stack
