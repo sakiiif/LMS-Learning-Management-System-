@@ -2,7 +2,7 @@
 
 Full-stack LMS built with **Strapi v5 (TypeScript)** on the backend and **Next.js (App Router, TypeScript, Tailwind CSS)** on the frontend, with four custom roles (Admin, Content Manager, Instructor, Student) and backend-enforced permissions.
 
-- **Live Frontend:** `https://learning-management-system-nine-omega.vercel.app`
+- **Live Frontend:** `https://learning-management-system-nine-omega.vercel.app/login`
 - **Live Backend:** `https://lms-learning-management-system-production-6cff.up.railway.app`
 
 ---
