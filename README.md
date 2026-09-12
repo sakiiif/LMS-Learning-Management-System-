@@ -112,10 +112,25 @@ In the Strapi admin panel, under **Settings → Users & Permissions → Roles**,
     - Manage Blogs
 ---
 
+## Test accounts
+
+| Role | Username | Email | Password |
+|---|---|---|---|
+| Admin | `admin` | `admin@example.com` | `Password123` |
+| Admin | `admin2` | `admin2@example.com` | `Password123` |
+| Content Manager | `contentManager` | `contentmanager@example.com` | `Password123` |
+| Instructor | `instructor` | `instructor@example.com` | `Password123` |
+| Instructor | `instructor2 ` | `instructor2@example.com` | `Password123` |
+| Student | `student` | `student@example.com` | `Password123` |
+| Student | `student2` | `student2@example.com` | `Password123` |
+| Student | `std3` | `std3@example.com` | `Password123` |
+| Student | `std4` | `std4@example.com` | `Password123` |
+| Student | `std5` | `std5@example.com` | `Password123` |
+
 ## Tech Stack
 
 | Layer | Technology | Hosting |
 |---|---|---|
-| Frontend | Next.js (App Router), TypeScript, Tailwind CSS | Vercel |
+| Frontend | Next.js, TypeScript, Tailwind CSS | Vercel |
 | Backend / CMS | Strapi v5 (TypeScript) | Railway |
 | Database | PostgreSQL | Railway |
